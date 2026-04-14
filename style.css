@@ -1,0 +1,121 @@
+body {
+  font-family: Arial, sans-serif;
+  text-align: center;
+  background: #f5f7fa;
+  margin: 0;
+  padding: 20px;
+  color: #111; /* texto general oscuro */
+}
+
+/* Container */
+.card-container {
+  display: flex;
+  justify-content: center;
+}
+
+/* Card */
+.card {
+  width: 420px;
+  min-height: 250px;
+  margin: 20px auto;
+}
+
+/* Front */
+.front {
+  width: 100%;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 16px;
+  background: white;
+
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: flex-start;
+
+  box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+}
+
+/* Title */
+.front strong {
+  font-size: 14px;
+  color: #333; /* más oscuro */
+  margin-bottom: 10px;
+}
+
+/* Question */
+.front div {
+  font-size: 16px;
+  margin-bottom: 15px;
+  line-height: 1.5;
+  color: #111; /* negro */
+}
+
+/* OPTIONS (FIX HERE 👇) */
+.option {
+  display: block;
+  width: 100%;
+  margin: 10px 0;
+  padding: 12px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  cursor: pointer;
+  background: #ffffff;
+
+  color: #111;              /* 🔥 texto oscuro */
+  font-size: 14px;
+  font-weight: 500;
+
+  text-align: left;
+  line-height: 1.5;
+
+  transition: all 0.2s ease;
+}
+
+/* Hover */
+.option:hover {
+  background: #e6f0ff;      /* azul claro */
+}
+
+/* Correct */
+.option.correct {
+  background: #d1fae5;      /* verde claro */
+  border-color: #10b981;
+  color: #065f46;           /* verde oscuro */
+}
+
+/* Incorrect */
+.option.wrong {
+  background: #fee2e2;      /* rojo claro */
+  border-color: #ef4444;
+  color: #7f1d1d;           /* rojo oscuro */
+}
+
+/* Buttons */
+.controls {
+  margin-top: 10px;
+}
+
+button {
+  padding: 10px 14px;
+  margin: 5px;
+  border-radius: 8px;
+  border: none;
+  background: #2563eb;
+  color: white;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+button:hover {
+  background: #1d4ed8;
+}
+
+/* Inputs */
+input {
+  padding: 10px;
+  margin: 5px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  width: 200px;
+}
