@@ -119,3 +119,16 @@ input {
   border: 1px solid #ccc;
   width: 200px;
 }
+
+#feedback {
+  margin-top: 15px;
+  font-weight: bold;
+}
+
+#feedback.correct {
+  color: #065f46;
+}
+
+#feedback.wrong {
+  color: #7f1d1d;
+}
