@@ -16,14 +16,14 @@ fetch("data.json")
   .then(res => res.json())
   .then(data => {
     flashcards = [
-    ...data.reglamentacion.map(q => ({ ...q, categoria: "Reglamentación" })),
-    ...data.tecnica.map(q => ({ ...q, categoria: "Técnica" }))
+      ...data.reglamentacion.map(q => ({ ...q, categoria: "Reglamentación" })),
+      ...data.tecnica.map(q => ({ ...q, categoria: "Técnica" }))
     ];
 
-    // 🔀 Mezclar preguntas (Fisher-Yates shuffle simple)
+    // 🔀 Mezclar preguntas
     for (let i = flashcards.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [flashcards[i], flashcards[j]] = [flashcards[j], flashcards[i]];
+      const j = Math.floor(Math.random() * (i + 1));
+      [flashcards[i], flashcards[j]] = [flashcards[j], flashcards[i]];
     }
 
     if (flashcards.length === 0) {
@@ -31,7 +31,6 @@ fetch("data.json")
       return;
     }
 
-    // Enable buttons AFTER load
     document.getElementById("next").disabled = false;
     document.getElementById("prev").disabled = false;
 
@@ -47,7 +46,7 @@ function showCard() {
   const q = flashcards[currentIndex];
   if (!q) return;
 
-  let answered = false;
+  answered = false;
 
   front.innerHTML = `
     <strong>${q.categoria} #${q.numero}</strong><br><br>
@@ -80,35 +79,32 @@ function showCard() {
 
       const selected = btn.dataset.key;
 
-      if (selected === q.respuesta) {
+      if (q.respuesta.includes(selected)) {
         btn.classList.add("correct");
 
-        // ✅ feedback positivo
         feedback.textContent = "✅ Correcto";
         feedback.className = "correct";
       } else {
         btn.classList.add("wrong");
 
-        // ❌ feedback negativo
         feedback.textContent = "❌ Incorrecto";
         feedback.className = "wrong";
-
-        // mostrar correcta
-        options.forEach(b => {
-          if (b.dataset.key === q.respuesta) {
-            b.classList.add("correct");
-          }
-        });
       }
 
-      // desactivar botones
+      // Mostrar TODAS las correctas
+      options.forEach(b => {
+        if (q.respuesta.includes(b.dataset.key)) {
+          b.classList.add("correct");
+        }
+      });
+
+      // Desactivar botones
       options.forEach(b => (b.disabled = true));
     };
   });
 }
 
 // Buttons
-
 document.getElementById("next").onclick = () => {
   currentIndex = (currentIndex + 1) % flashcards.length;
   showCard();
