@@ -1,13 +1,13 @@
 let flashcards = [];
 let currentIndex = 0;
 let answered = false;
+let selectedAnswers = new Set();   // Stores user's current selections
 
 // DOM elements
 const card = document.getElementById("card");
 const front = card.querySelector(".front");
 const back = card.querySelector(".back");
 
-// Disable buttons initially
 document.getElementById("next").disabled = true;
 document.getElementById("prev").disabled = true;
 
@@ -20,7 +20,7 @@ fetch("data.json")
       ...data.tecnica.map(q => ({ ...q, categoria: "Técnica" }))
     ];
 
-    // 🔀 Mezclar preguntas
+    // Shuffle
     for (let i = flashcards.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
       [flashcards[i], flashcards[j]] = [flashcards[j], flashcards[i]];
@@ -47,6 +47,7 @@ function showCard() {
   if (!q) return;
 
   answered = false;
+  selectedAnswers.clear();
 
   front.innerHTML = `
     <strong>${q.categoria} #${q.numero}</strong><br><br>
@@ -54,15 +55,15 @@ function showCard() {
     <br>
 
     ${Object.entries(q.opciones)
-      .map(([key, val]) => {
-        return `
-          <button class="option" data-key="${key}">
-            <b>${key.toUpperCase()}</b>: ${val}
-          </button>
-        `;
-      })
+      .map(([key, val]) => `
+        <button class="option" data-key="${key}">
+          <b>${key.toUpperCase()}</b>: ${val}
+        </button>
+      `)
       .join("")}
 
+    <br><br>
+    <button id="check-btn" class="check-button">Verificar Respuestas</button>
     <p id="feedback"></p>
   `;
 
@@ -70,41 +71,70 @@ function showCard() {
   card.classList.remove("flipped");
 
   const options = document.querySelectorAll(".option");
+  const checkBtn = document.getElementById("check-btn");
   const feedback = document.getElementById("feedback");
 
+  // Toggle selection on click
   options.forEach(btn => {
     btn.onclick = () => {
       if (answered) return;
-      answered = true;
 
-      const selected = btn.dataset.key;
+      const key = btn.dataset.key;
 
-      if (q.respuesta.includes(selected)) {
-        btn.classList.add("correct");
-
-        feedback.textContent = "✅ Correcto";
-        feedback.className = "correct";
+      if (selectedAnswers.has(key)) {
+        selectedAnswers.delete(key);
+        btn.classList.remove("selected");
       } else {
-        btn.classList.add("wrong");
-
-        feedback.textContent = "❌ Incorrecto";
-        feedback.className = "wrong";
+        selectedAnswers.add(key);
+        btn.classList.add("selected");
       }
-
-      // Mostrar TODAS las correctas
-      options.forEach(b => {
-        if (q.respuesta.includes(b.dataset.key)) {
-          b.classList.add("correct");
-        }
-      });
-
-      // Desactivar botones
-      options.forEach(b => (b.disabled = true));
     };
   });
+
+  // Check answers button
+  checkBtn.onclick = () => {
+    if (answered || selectedAnswers.size === 0) return;
+    answered = true;
+
+    const correctSet = new Set(q.respuesta);
+
+    // Highlight all options
+    options.forEach(btn => {
+      const key = btn.dataset.key;
+      btn.disabled = true;
+
+      if (correctSet.has(key) && selectedAnswers.has(key)) {
+        btn.classList.add("correct");           // correctly selected
+      } 
+      else if (correctSet.has(key)) {
+        btn.classList.add("correct");           // correct but not selected
+      } 
+      else if (selectedAnswers.has(key)) {
+        btn.classList.add("wrong");             // wrongly selected
+      }
+    });
+
+    // Feedback
+    const isCorrect = 
+      selectedAnswers.size === correctSet.size && 
+      [...selectedAnswers].every(ans => correctSet.has(ans));
+
+    if (isCorrect) {
+      feedback.textContent = "✅ ¡Excelente! Respuesta correcta";
+      feedback.className = "correct";
+    } else {
+      feedback.innerHTML = `
+        ❌ Incorrecto<br>
+        <small>Las respuestas correctas son: <strong>${q.respuesta.map(r => r.toUpperCase()).join(", ")}</strong></small>
+      `;
+      feedback.className = "wrong";
+    }
+
+    checkBtn.disabled = true;
+  };
 }
 
-// Buttons
+// Navigation
 document.getElementById("next").onclick = () => {
   currentIndex = (currentIndex + 1) % flashcards.length;
   showCard();

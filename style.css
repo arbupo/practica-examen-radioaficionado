@@ -1,134 +1,35 @@
-body {
-  font-family: Arial, sans-serif;
-  text-align: center;
-  background: #f5f7fa;
-  margin: 0;
-  padding: 20px;
-  color: #111; /* texto general oscuro */
-}
-
-/* Container */
-.card-container {
-  display: flex;
-  justify-content: center;
-}
-
-/* Card */
-.card {
-  width: 420px;
-  min-height: 250px;
-  margin: 20px auto;
-}
-
-/* Front */
-.front {
-  width: 100%;
-  padding: 20px;
-  border: 1px solid #ddd;
-  border-radius: 16px;
-  background: white;
-
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-  justify-content: flex-start;
-
-  box-shadow: 0 8px 20px rgba(0,0,0,0.08);
-}
-
-/* Title */
-.front strong {
-  font-size: 14px;
-  color: #333; /* más oscuro */
-  margin-bottom: 10px;
-}
-
-/* Question */
-.front div {
-  font-size: 16px;
-  margin-bottom: 15px;
-  line-height: 1.5;
-  color: #111; /* negro */
-}
-
-/* OPTIONS (FIX HERE 👇) */
 .option {
   display: block;
   width: 100%;
-  margin: 10px 0;
   padding: 12px;
-  border-radius: 10px;
-  border: 1px solid #ccc;
-  cursor: pointer;
-  background: #ffffff;
-
-  color: #111;              /* 🔥 texto oscuro */
-  font-size: 14px;
-  font-weight: 500;
-
+  margin: 8px 0;
   text-align: left;
-  line-height: 1.5;
-
-  transition: all 0.2s ease;
-}
-
-/* Hover */
-.option:hover {
-  background: #e6f0ff;      /* azul claro */
-}
-
-/* Correct */
-.option.correct {
-  background: #d1fae5;      /* verde claro */
-  border-color: #10b981;
-  color: #065f46;           /* verde oscuro */
-}
-
-/* Incorrect */
-.option.wrong {
-  background: #fee2e2;      /* rojo claro */
-  border-color: #ef4444;
-  color: #7f1d1d;           /* rojo oscuro */
-}
-
-/* Buttons */
-.controls {
-  margin-top: 10px;
-}
-
-button {
-  padding: 10px 14px;
-  margin: 5px;
+  border: 2px solid #ccc;
   border-radius: 8px;
-  border: none;
-  background: #2563eb;
-  color: white;
+  background: #f9f9f9;
   cursor: pointer;
-  font-size: 14px;
+  transition: all 0.2s;
 }
 
-button:hover {
-  background: #1d4ed8;
-}
+.option:hover { background: #f0f0f0; }
+.option.selected { border-color: #4a90e2; background: #e8f4fd; }
+.option.correct { border-color: #27ae60; background: #e8f8f0; }
+.option.wrong   { border-color: #e74c3c; background: #fce8e6; }
 
-/* Inputs */
-input {
-  padding: 10px;
-  margin: 5px;
+.check-button {
+  padding: 12px 24px;
+  font-size: 16px;
+  background: #4a90e2;
+  color: white;
+  border: none;
   border-radius: 8px;
-  border: 1px solid #ccc;
-  width: 200px;
+  cursor: pointer;
 }
 
-#feedback {
-  margin-top: 15px;
-  font-weight: bold;
+.check-button:disabled {
+  background: #95a5a6;
+  cursor: not-allowed;
 }
 
-#feedback.correct {
-  color: #065f46;
-}
-
-#feedback.wrong {
-  color: #7f1d1d;
-}
+.correct { color: #27ae60; font-weight: bold; }
+.wrong   { color: #e74c3c; font-weight: bold; }
