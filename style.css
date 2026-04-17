@@ -1,35 +1,230 @@
-.option {
-  display: block;
-  width: 100%;
-  padding: 12px;
-  margin: 8px 0;
-  text-align: left;
-  border: 2px solid #ccc;
-  border-radius: 8px;
-  background: #f9f9f9;
-  cursor: pointer;
-  transition: all 0.2s;
+/* ==================== ESTILOS GENERALES ==================== */
+body {
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    background: #f4f6f9;
+    margin: 0;
+    padding: 20px;
+    color: #2c3e50;
 }
 
-.option:hover { background: #f0f0f0; }
-.option.selected { border-color: #4a90e2; background: #e8f4fd; }
-.option.correct { border-color: #27ae60; background: #e8f8f0; }
-.option.wrong   { border-color: #e74c3c; background: #fce8e6; }
+h1 {
+    text-align: center;
+    color: #2c3e50;
+    margin-bottom: 30px;
+}
 
+/* ==================== LAYOUT PRINCIPAL ==================== */
+.container {
+    display: flex;
+    gap: 25px;
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.sidebar {
+    width: 280px;
+    background: #f8f9fa;
+    border-radius: 16px;
+    padding: 25px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    height: fit-content;
+    position: sticky;
+    top: 20px;
+}
+
+.sidebar h2 {
+    margin: 0 0 20px 0;
+    color: #2c3e50;
+    font-size: 1.4rem;
+    text-align: center;
+}
+
+.main {
+    flex: 1;
+    min-width: 0;
+}
+
+/* ==================== BOTONES DE NIVEL ==================== */
+.level-btn {
+    display: block;
+    width: 100%;
+    padding: 16px 20px;
+    margin: 12px 0;
+    font-size: 1.15rem;
+    font-weight: 600;
+    background: #ffffff;
+    color: #2c3e50;
+    border: 3px solid #bdc6d0;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    text-align: center;
+}
+
+.level-btn:hover {
+    border-color: #3498db;
+    background: #ecf6ff;
+    transform: translateY(-2px);
+}
+
+.level-btn.active {
+    border-color: #3498db;
+    background: #e8f4fd;
+    color: #2980b9;
+    box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
+}
+
+/* ==================== ESTADÍSTICAS ==================== */
+.stats {
+    margin-top: 25px;
+    padding: 15px;
+    background: #e8f4fd;
+    border-radius: 12px;
+    text-align: center;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #2980b9;
+}
+
+/* ==================== TARJETA (FLEX PARA PONER CONTROLES ARRIBA) ==================== */
+.card-container {
+    perspective: 1000px;
+}
+
+.card {
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    min-height: 480px;
+    
+    /* NUEVO: flex para mover controles al tope */
+    display: flex;
+    flex-direction: column;
+}
+
+.front, .back {
+    flex: 1;
+    padding: 30px 40px 15px 40px;   /* menos padding arriba porque ahora hay controles */
+    order: 1;
+}
+
+/* ==================== CONTROLES EN LA PARTE SUPERIOR ==================== */
+.card .controls {
+    order: -1;                    /* Esto lo pone primero (arriba) */
+    margin-top: 0;
+    padding: 18px 40px;
+    background: #f8f9fa;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-shrink: 0;               /* no se encoge */
+}
+
+.controls button {
+    padding: 14px 32px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+#prev {
+    background: #ecf0f1;
+    color: #2c3e50;
+}
+
+#next {
+    background: #3498db;
+    color: white;
+}
+
+.controls button:hover:not(:disabled) {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+}
+
+.controls button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* ==================== OPCIONES DE RESPUESTA ==================== */
+.option {
+    display: block;
+    width: 100%;
+    padding: 14px 18px;
+    margin: 10px 0;
+    text-align: left;
+    border: 2px solid #ccc;
+    border-radius: 10px;
+    background: #f9f9f9;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 1.05rem;
+}
+
+.option:hover {
+    background: #f0f0f0;
+    border-color: #b0b0b0;
+}
+
+.option.selected {
+    border-color: #4a90e2;
+    background: #e8f4fd;
+}
+
+.option.correct {
+    border-color: #27ae60;
+    background: #e8f8f0;
+}
+
+.option.wrong {
+    border-color: #e74c3c;
+    background: #fce8e6;
+}
+
+/* ==================== BOTÓN CONFIRMAR (queda abajo) ==================== */
 .check-button {
-  padding: 12px 24px;
-  font-size: 16px;
-  background: #4a90e2;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
+    display: block;
+    margin: 20px auto 8px;
+    padding: 14px 40px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    background: #3498db;
+    color: white;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.2s;
+    max-width: 320px;
+    width: 100%;
+}
+
+.check-button:hover:not(:disabled) {
+    background: #2980b9;
+    transform: translateY(-2px);
 }
 
 .check-button:disabled {
-  background: #95a5a6;
-  cursor: not-allowed;
+    background: #95a5a6;
+    cursor: not-allowed;
 }
 
-.correct { color: #27ae60; font-weight: bold; }
-.wrong   { color: #e74c3c; font-weight: bold; }
+/* ==================== FEEDBACK ==================== */
+.correct {
+    color: #27ae60;
+    font-weight: bold;
+}
+
+.wrong {
+    color: #e74c3c;
+    font-weight: bold;
+}

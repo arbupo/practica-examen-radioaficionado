@@ -1,26 +1,44 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>Simulador de Examen de Radioaficionado</title>
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulador de Examen de Radioaficionado</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <h1>Simulador de Examen de Radioaficionado</h1>
 
-  <h1>Simulador de Examen de Radioaficionado - Novicio</h1>
+    <div class="container">
+        <!-- Barra lateral izquierda -->
+        <div class="sidebar">
+            <h2>Seleccionar Nivel</h2>
+            <button class="level-btn active" data-level="novicio">Novicio</button>
+            <button class="level-btn" data-level="general">General</button>
+            <button class="level-btn" data-level="superior">Superior</button>
+            
+            <div class="stats">
+                Preguntas cargadas: <span id="question-count">—</span>
+            </div>
+        </div>
 
-  <div class="card-container">
-    <div id="card" class="card">
-      <div class="front"></div>
-      <div class="back"></div>
+        <!-- Área principal -->
+        <div class="main">
+            <div class="card-container">
+                <div id="card" class="card">
+                    <div class="front"></div>
+                    <div class="back"></div>
+                    
+                    <!-- Prev / Next ahora en la PARTE SUPERIOR -->
+                    <div class="controls">
+                        <button id="prev">⬅ Prev</button>
+                        <button id="next">Next ➡</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
 
-  <div class="controls">
-    <button id="prev">⬅ Prev</button>
-    <button id="next">Next ➡</button>
-  </div>
-
-  <script src="app.js"></script>
+    <script src="app.js"></script>
 </body>
 </html>
