@@ -87,7 +87,7 @@ h1 {
     color: #2980b9;
 }
 
-/* ==================== TARJETA (FLEX PARA PONER CONTROLES ARRIBA) ==================== */
+/* ==================== TARJETA ==================== */
 .card-container {
     perspective: 1000px;
 }
@@ -101,33 +101,29 @@ h1 {
     box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
     overflow: hidden;
     min-height: 480px;
-    
-    /* NUEVO: flex para mover controles al tope */
     display: flex;
     flex-direction: column;
 }
 
-.front, .back {
+.front {
     flex: 1;
-    padding: 30px 40px 15px 40px;   /* menos padding arriba porque ahora hay controles */
-    order: 1;
+    padding: 40px 40px 20px 40px;
 }
 
-/* ==================== CONTROLES EN LA PARTE SUPERIOR ==================== */
-.card .controls {
-    order: -1;                    /* Esto lo pone primero (arriba) */
-    margin-top: 0;
-    padding: 18px 40px;
+/* ==================== BARRA INFERIOR CON LOS 3 BOTONES ==================== */
+.bottom-bar {
+    padding: 20px 40px;
     background: #f8f9fa;
-    border-bottom: 1px solid #eee;
+    border-top: 1px solid #eee;
     display: flex;
+    align-items: center;
     justify-content: center;
-    gap: 20px;
-    flex-shrink: 0;               /* no se encoge */
+    gap: 15px;
+    flex-shrink: 0;
 }
 
-.controls button {
-    padding: 14px 32px;
+.bottom-bar button {
+    padding: 14px 28px;
     font-size: 1.1rem;
     font-weight: 600;
     border: none;
@@ -146,12 +142,19 @@ h1 {
     color: white;
 }
 
-.controls button:hover:not(:disabled) {
+.check-button {
+    background: #27ae60;
+    color: white;
+    padding: 14px 40px;
+    min-width: 260px;
+}
+
+.bottom-bar button:hover:not(:disabled) {
     transform: translateY(-3px);
     box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
 }
 
-.controls button:disabled {
+.bottom-bar button:disabled {
     opacity: 0.5;
     cursor: not-allowed;
 }
@@ -189,33 +192,6 @@ h1 {
 .option.wrong {
     border-color: #e74c3c;
     background: #fce8e6;
-}
-
-/* ==================== BOTÓN CONFIRMAR (queda abajo) ==================== */
-.check-button {
-    display: block;
-    margin: 20px auto 8px;
-    padding: 14px 40px;
-    font-size: 1.1rem;
-    font-weight: 600;
-    background: #3498db;
-    color: white;
-    border: none;
-    border-radius: 12px;
-    cursor: pointer;
-    transition: all 0.2s;
-    max-width: 320px;
-    width: 100%;
-}
-
-.check-button:hover:not(:disabled) {
-    background: #2980b9;
-    transform: translateY(-2px);
-}
-
-.check-button:disabled {
-    background: #95a5a6;
-    cursor: not-allowed;
 }
 
 /* ==================== FEEDBACK ==================== */

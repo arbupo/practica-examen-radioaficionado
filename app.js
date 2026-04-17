@@ -8,10 +8,10 @@ let answered = false;
 // DOM elements
 const card = document.getElementById("card");
 const front = card.querySelector(".front");
-const back = card.querySelector(".back");
 
 const prevBtn = document.getElementById("prev");
 const nextBtn = document.getElementById("next");
+const checkBtn = document.getElementById("check-button");
 
 prevBtn.disabled = true;
 nextBtn.disabled = true;
@@ -33,14 +33,12 @@ function loadLevel(level) {
     currentFlashcards = allFlashcards.filter(q => {
         if (!q || !q.numero) return false;
         const num = q.numero.trim();
-
         const isRoman = !num.startsWith("P");
         const isPB = num.startsWith("PB.");
         let isSpecific = false;
         if (level === "novicio") isSpecific = num.startsWith("PBN.");
         else if (level === "general") isSpecific = num.startsWith("PBG.");
         else if (level === "superior") isSpecific = num.startsWith("PBS.");
-
         return isRoman || isPB || isSpecific;
     });
 
@@ -53,7 +51,6 @@ function loadLevel(level) {
         alert(`No hay preguntas disponibles para el nivel ${level.toUpperCase()}`);
         prevBtn.disabled = true;
         nextBtn.disabled = true;
-        front.innerHTML = `<p style="text-align:center; color:#e74c3c; font-size:1.3rem;">No hay preguntas para este nivel.</p>`;
         return;
     }
 
@@ -62,7 +59,7 @@ function loadLevel(level) {
     showCard();
 }
 
-// ======================== MOSTRAR PREGUNTA (con selección múltiple) ========================
+// ======================== MOSTRAR PREGUNTA ========================
 function showCard() {
     const q = currentFlashcards[currentIndex];
     if (!q) return;
@@ -81,25 +78,19 @@ function showCard() {
         <div style="font-size:1.1rem; line-height:1.4;">${q.pregunta}</div>
         <br>
         ${optionsHTML}
-        <button id="check-button" class="check-button">✅ Confirmar Respuesta</button>
         <p id="feedback" style="margin-top:20px; font-size:1.3rem; text-align:center;"></p>
     `;
 
-    back.innerHTML = "";
-    card.classList.remove("flipped");
-
     const options = front.querySelectorAll(".option");
-    const checkBtn = front.querySelector("#check-button");
     const feedback = front.querySelector("#feedback");
 
     let selectedAnswers = new Set();
 
-    // === Selección múltiple (toggle) ===
+    // Selección múltiple
     options.forEach(btn => {
         btn.onclick = () => {
             if (answered) return;
             const key = btn.dataset.key;
-
             if (selectedAnswers.has(key)) {
                 selectedAnswers.delete(key);
                 btn.classList.remove("selected");
@@ -110,7 +101,8 @@ function showCard() {
         };
     });
 
-    // === Botón Confirmar ===
+    // ======================== BOTÓN CONFIRMAR (ahora en la barra inferior) ========================
+    checkBtn.disabled = false;
     checkBtn.onclick = () => {
         if (answered || selectedAnswers.size === 0) return;
 
@@ -118,7 +110,6 @@ function showCard() {
 
         const selectedArray = Array.from(selectedAnswers).sort();
         const correctArray = [...q.respuesta].sort();
-
         const isCorrect = JSON.stringify(selectedArray) === JSON.stringify(correctArray);
 
         // Marcar respuestas
@@ -127,11 +118,8 @@ function showCard() {
             const isSelected = selectedAnswers.has(key);
             const isCorrectOption = q.respuesta.includes(key);
 
-            if (isCorrectOption) {
-                btn.classList.add("correct");
-            } else if (isSelected) {
-                btn.classList.add("wrong");
-            }
+            if (isCorrectOption) btn.classList.add("correct");
+            else if (isSelected) btn.classList.add("wrong");
             btn.disabled = true;
         });
 
@@ -145,6 +133,9 @@ function showCard() {
 
         checkBtn.disabled = true;
     };
+
+    // Resetear botón Confirmar cada vez que se cambia de pregunta
+    checkBtn.disabled = false;
 }
 
 // ======================== CARGA DE DATOS ========================
