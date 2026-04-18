@@ -8,7 +8,6 @@
 </head>
 <body>
 <h1>Simulador de Examen de Radioaficionado</h1>
-
 <div class="container">
     <!-- Barra lateral -->
     <div class="sidebar">
@@ -24,6 +23,13 @@
             <button class="category-btn" data-category="tecnica">Técnica</button>
         </div>
 
+        <!-- Orden de preguntas -->
+        <h2>Orden de las preguntas</h2>
+        <div class="order-buttons">
+            <button class="order-btn active" data-order="aleatorio">🔀 Aleatorio</button>
+            <button class="order-btn" data-order="original">📋 En orden</button>
+        </div>
+
         <div class="stats">
             Preguntas cargadas: <span id="question-count">—</span>
         </div>
@@ -34,7 +40,6 @@
         <div class="card-container">
             <div id="card" class="card">
                 <div class="front"></div>
-                
                 <div class="bottom-bar">
                     <button id="prev">⬅ Prev</button>
                     <button id="check-button" class="check-button">✅ Confirmar Respuesta</button>

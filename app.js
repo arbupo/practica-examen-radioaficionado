@@ -3,7 +3,8 @@ let allFlashcards = [];
 let currentFlashcards = [];
 let currentIndex = 0;
 let currentLevel = "novicio";
-let currentCategory = "ambas";   // ← NUEVA VARIABLE
+let currentCategory = "ambas";
+let currentOrder = "aleatorio";
 let answered = false;
 
 // DOM elements
@@ -28,30 +29,32 @@ function shuffle(array) {
 
 // ======================== FILTRADO ========================
 function loadQuestions() {
-    currentFlashcards = allFlashcards.filter(q => {
+    let filtered = allFlashcards.filter(q => {
         if (!q || !q.numero) return false;
-
         const num = q.numero.trim();
         const isRoman = !num.startsWith("P");
         const isPB = num.startsWith("PB.");
 
-        // Filtro por nivel
         let matchesLevel = isRoman || isPB;
         if (currentLevel === "novicio") matchesLevel = matchesLevel || num.startsWith("PBN.");
         else if (currentLevel === "general") matchesLevel = matchesLevel || num.startsWith("PBG.");
         else if (currentLevel === "superior") matchesLevel = matchesLevel || num.startsWith("PBS.");
 
-        // Filtro por categoría
         let matchesCategory = true;
-        if (currentCategory === "reglamentacion") 
+        if (currentCategory === "reglamentacion")
             matchesCategory = q.categoria === "Reglamentación";
-        else if (currentCategory === "tecnica") 
+        else if (currentCategory === "tecnica")
             matchesCategory = q.categoria === "Técnica";
 
         return matchesLevel && matchesCategory;
     });
 
-    currentFlashcards = shuffle(currentFlashcards);
+    if (currentOrder === "aleatorio") {
+        currentFlashcards = shuffle(filtered);
+    } else {
+        currentFlashcards = filtered;
+    }
+
     currentIndex = 0;
     document.getElementById("question-count").textContent = currentFlashcards.length;
 
@@ -86,7 +89,6 @@ function showCard() {
         <p id="feedback" style="margin-top:20px; font-size:1.3rem; text-align:center;"></p>
     `;
 
-    // ... (el resto del código de selección múltiple y botón confirmar se mantiene igual)
     const options = front.querySelectorAll(".option");
     const feedback = front.querySelector("#feedback");
     let selectedAnswers = new Set();
@@ -109,6 +111,7 @@ function showCard() {
     checkBtn.onclick = () => {
         if (answered || selectedAnswers.size === 0) return;
         answered = true;
+
         const selectedArray = Array.from(selectedAnswers).sort();
         const correctArray = [...q.respuesta].sort();
         const isCorrect = JSON.stringify(selectedArray) === JSON.stringify(correctArray);
@@ -122,8 +125,8 @@ function showCard() {
             btn.disabled = true;
         });
 
-        feedback.innerHTML = isCorrect 
-            ? "✅ <strong>¡Correcto!</strong>" 
+        feedback.innerHTML = isCorrect
+            ? "✅ <strong>¡Correcto!</strong>"
             : "❌ <strong>Incorrecto</strong><br><small>Las respuestas correctas están marcadas en verde.</small>";
         feedback.className = isCorrect ? "correct" : "wrong";
         checkBtn.disabled = true;
@@ -142,8 +145,14 @@ fetch("data.json")
     });
 
 // ======================== NAVEGACIÓN ========================
-nextBtn.onclick = () => { currentIndex = (currentIndex + 1) % currentFlashcards.length; showCard(); };
-prevBtn.onclick = () => { currentIndex = (currentIndex - 1 + currentFlashcards.length) % currentFlashcards.length; showCard(); };
+nextBtn.onclick = () => {
+    currentIndex = (currentIndex + 1) % currentFlashcards.length;
+    showCard();
+};
+prevBtn.onclick = () => {
+    currentIndex = (currentIndex - 1 + currentFlashcards.length) % currentFlashcards.length;
+    showCard();
+};
 
 // ======================== CAMBIO DE NIVEL ========================
 document.querySelectorAll(".level-btn").forEach(btn => {
@@ -155,12 +164,22 @@ document.querySelectorAll(".level-btn").forEach(btn => {
     });
 });
 
-// ======================== CAMBIO DE CATEGORÍA (NUEVO) ========================
+// ======================== CAMBIO DE CATEGORÍA ========================
 document.querySelectorAll(".category-btn").forEach(btn => {
     btn.addEventListener("click", () => {
         document.querySelectorAll(".category-btn").forEach(b => b.classList.remove("active"));
         btn.classList.add("active");
         currentCategory = btn.dataset.category;
+        loadQuestions();
+    });
+});
+
+// ======================== CAMBIO DE ORDEN ========================
+document.querySelectorAll(".order-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+        document.querySelectorAll(".order-btn").forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        currentOrder = btn.dataset.order;
         loadQuestions();
     });
 });

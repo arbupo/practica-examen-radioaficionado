@@ -69,6 +69,38 @@ h1 {
     box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
 }
 
+/* ==================== BOTONES DE ORDEN (NUEVO) ==================== */
+.order-buttons {
+    display: flex;
+    gap: 6px;
+    margin: 20px 0 25px 0;
+}
+.order-btn {
+    flex: 1;
+    padding: 11px 8px;
+    font-size: 0.97rem;
+    font-weight: 600;
+    background: #ffffff;
+    color: #2c3e50;
+    border: 3px solid #bdc6d0;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    text-align: center;
+    white-space: nowrap;
+}
+.order-btn:hover {
+    border-color: #3498db;
+    background: #ecf6ff;
+    transform: translateY(-2px);
+}
+.order-btn.active {
+    background: #3498db;
+    color: white;
+    border-color: #3498db;
+    box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
+}
+
 /* ==================== ESTADÍSTICAS ==================== */
 .stats {
     margin-top: 25px;
@@ -102,7 +134,7 @@ h1 {
     padding: 40px 40px 20px 40px;
 }
 
-/* ==================== BARRA INFERIOR CON LOS 3 BOTONES ==================== */
+/* ==================== BARRA INFERIOR ==================== */
 .bottom-bar {
     padding: 20px 40px;
     background: #f8f9fa;
@@ -110,7 +142,8 @@ h1 {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 15px;
+    gap: 12px;
+    flex-wrap: wrap;           /* permite que se acomoden bien en pantallas pequeñas */
     flex-shrink: 0;
 }
 .bottom-bar button {
@@ -192,11 +225,10 @@ h1 {
     gap: 6px;
     margin: 20px 0 25px 0;
 }
-
 .category-btn {
     flex: 1;
-    padding: 11px 8px;           /* reducido para que entre perfectamente */
-    font-size: 0.97rem;          /* letra más pequeña */
+    padding: 11px 8px;
+    font-size: 0.97rem;
     font-weight: 600;
     background: #ffffff;
     color: #2c3e50;
@@ -209,13 +241,11 @@ h1 {
     overflow: hidden;
     text-overflow: ellipsis;
 }
-
 .category-btn:hover {
     border-color: #3498db;
     background: #ecf6ff;
     transform: translateY(-2px);
 }
-
 .category-btn.active {
     background: #3498db;
     color: white;
