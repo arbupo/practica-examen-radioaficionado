@@ -3,12 +3,12 @@ let allFlashcards = [];
 let currentFlashcards = [];
 let currentIndex = 0;
 let currentLevel = "novicio";
+let currentCategory = "ambas";   // ← NUEVA VARIABLE
 let answered = false;
 
 // DOM elements
 const card = document.getElementById("card");
 const front = card.querySelector(".front");
-
 const prevBtn = document.getElementById("prev");
 const nextBtn = document.getElementById("next");
 const checkBtn = document.getElementById("check-button");
@@ -16,7 +16,7 @@ const checkBtn = document.getElementById("check-button");
 prevBtn.disabled = true;
 nextBtn.disabled = true;
 
-// ======================== FUNCIÓN DE MEZCLA ========================
+// ======================== MEZCLA ========================
 function shuffle(array) {
     const shuffled = [...array];
     for (let i = shuffled.length - 1; i > 0; i--) {
@@ -26,31 +26,37 @@ function shuffle(array) {
     return shuffled;
 }
 
-// ======================== FILTRADO POR NIVEL ========================
-function loadLevel(level) {
-    currentLevel = level;
-
+// ======================== FILTRADO ========================
+function loadQuestions() {
     currentFlashcards = allFlashcards.filter(q => {
         if (!q || !q.numero) return false;
+
         const num = q.numero.trim();
         const isRoman = !num.startsWith("P");
         const isPB = num.startsWith("PB.");
-        let isSpecific = false;
-        if (level === "novicio") isSpecific = num.startsWith("PBN.");
-        else if (level === "general") isSpecific = num.startsWith("PBG.");
-        else if (level === "superior") isSpecific = num.startsWith("PBS.");
-        return isRoman || isPB || isSpecific;
+
+        // Filtro por nivel
+        let matchesLevel = isRoman || isPB;
+        if (currentLevel === "novicio") matchesLevel = matchesLevel || num.startsWith("PBN.");
+        else if (currentLevel === "general") matchesLevel = matchesLevel || num.startsWith("PBG.");
+        else if (currentLevel === "superior") matchesLevel = matchesLevel || num.startsWith("PBS.");
+
+        // Filtro por categoría
+        let matchesCategory = true;
+        if (currentCategory === "reglamentacion") 
+            matchesCategory = q.categoria === "Reglamentación";
+        else if (currentCategory === "tecnica") 
+            matchesCategory = q.categoria === "Técnica";
+
+        return matchesLevel && matchesCategory;
     });
 
     currentFlashcards = shuffle(currentFlashcards);
     currentIndex = 0;
-
     document.getElementById("question-count").textContent = currentFlashcards.length;
 
     if (currentFlashcards.length === 0) {
-        alert(`No hay preguntas disponibles para el nivel ${level.toUpperCase()}`);
-        prevBtn.disabled = true;
-        nextBtn.disabled = true;
+        alert(`No hay preguntas disponibles para ${currentLevel.toUpperCase()} + ${currentCategory}`);
         return;
     }
 
@@ -65,7 +71,6 @@ function showCard() {
     if (!q) return;
 
     answered = false;
-
     const optionsHTML = Object.entries(q.opciones)
         .map(([key, val]) => `
             <button class="option" data-key="${key}">
@@ -81,12 +86,11 @@ function showCard() {
         <p id="feedback" style="margin-top:20px; font-size:1.3rem; text-align:center;"></p>
     `;
 
+    // ... (el resto del código de selección múltiple y botón confirmar se mantiene igual)
     const options = front.querySelectorAll(".option");
     const feedback = front.querySelector("#feedback");
-
     let selectedAnswers = new Set();
 
-    // Selección múltiple
     options.forEach(btn => {
         btn.onclick = () => {
             if (answered) return;
@@ -101,41 +105,29 @@ function showCard() {
         };
     });
 
-    // ======================== BOTÓN CONFIRMAR (ahora en la barra inferior) ========================
     checkBtn.disabled = false;
     checkBtn.onclick = () => {
         if (answered || selectedAnswers.size === 0) return;
-
         answered = true;
-
         const selectedArray = Array.from(selectedAnswers).sort();
         const correctArray = [...q.respuesta].sort();
         const isCorrect = JSON.stringify(selectedArray) === JSON.stringify(correctArray);
 
-        // Marcar respuestas
         options.forEach(btn => {
             const key = btn.dataset.key;
             const isSelected = selectedAnswers.has(key);
             const isCorrectOption = q.respuesta.includes(key);
-
             if (isCorrectOption) btn.classList.add("correct");
             else if (isSelected) btn.classList.add("wrong");
             btn.disabled = true;
         });
 
-        if (isCorrect) {
-            feedback.innerHTML = "✅ <strong>¡Correcto!</strong>";
-            feedback.className = "correct";
-        } else {
-            feedback.innerHTML = "❌ <strong>Incorrecto</strong><br><small>Las respuestas correctas están marcadas en verde.</small>";
-            feedback.className = "wrong";
-        }
-
+        feedback.innerHTML = isCorrect 
+            ? "✅ <strong>¡Correcto!</strong>" 
+            : "❌ <strong>Incorrecto</strong><br><small>Las respuestas correctas están marcadas en verde.</small>";
+        feedback.className = isCorrect ? "correct" : "wrong";
         checkBtn.disabled = true;
     };
-
-    // Resetear botón Confirmar cada vez que se cambia de pregunta
-    checkBtn.disabled = false;
 }
 
 // ======================== CARGA DE DATOS ========================
@@ -146,31 +138,29 @@ fetch("data.json")
             ...(data.reglamentacion || []).map(q => ({ ...q, categoria: "Reglamentación" })),
             ...(data.tecnica || []).map(q => ({ ...q, categoria: "Técnica" }))
         ];
-        loadLevel("novicio");
-    })
-    .catch(err => {
-        console.error("Error cargando data.json:", err);
-        alert("Error al cargar data.json");
+        loadQuestions();
     });
 
 // ======================== NAVEGACIÓN ========================
-nextBtn.onclick = () => {
-    if (currentFlashcards.length === 0) return;
-    currentIndex = (currentIndex + 1) % currentFlashcards.length;
-    showCard();
-};
-
-prevBtn.onclick = () => {
-    if (currentFlashcards.length === 0) return;
-    currentIndex = (currentIndex - 1 + currentFlashcards.length) % currentFlashcards.length;
-    showCard();
-};
+nextBtn.onclick = () => { currentIndex = (currentIndex + 1) % currentFlashcards.length; showCard(); };
+prevBtn.onclick = () => { currentIndex = (currentIndex - 1 + currentFlashcards.length) % currentFlashcards.length; showCard(); };
 
 // ======================== CAMBIO DE NIVEL ========================
 document.querySelectorAll(".level-btn").forEach(btn => {
     btn.addEventListener("click", () => {
         document.querySelectorAll(".level-btn").forEach(b => b.classList.remove("active"));
         btn.classList.add("active");
-        loadLevel(btn.dataset.level);
+        currentLevel = btn.dataset.level;
+        loadQuestions();
+    });
+});
+
+// ======================== CAMBIO DE CATEGORÍA (NUEVO) ========================
+document.querySelectorAll(".category-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+        document.querySelectorAll(".category-btn").forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        currentCategory = btn.dataset.category;
+        loadQuestions();
     });
 });

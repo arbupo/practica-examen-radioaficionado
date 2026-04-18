@@ -6,7 +6,6 @@ body {
     padding: 20px;
     color: #2c3e50;
 }
-
 h1 {
     text-align: center;
     color: #2c3e50;
@@ -21,7 +20,6 @@ h1 {
     margin: 0 auto;
     padding: 0 20px;
 }
-
 .sidebar {
     width: 280px;
     background: #f8f9fa;
@@ -32,14 +30,12 @@ h1 {
     position: sticky;
     top: 20px;
 }
-
 .sidebar h2 {
     margin: 0 0 20px 0;
     color: #2c3e50;
     font-size: 1.4rem;
     text-align: center;
 }
-
 .main {
     flex: 1;
     min-width: 0;
@@ -61,13 +57,11 @@ h1 {
     transition: all 0.25s ease;
     text-align: center;
 }
-
 .level-btn:hover {
     border-color: #3498db;
     background: #ecf6ff;
     transform: translateY(-2px);
 }
-
 .level-btn.active {
     border-color: #3498db;
     background: #e8f4fd;
@@ -91,7 +85,6 @@ h1 {
 .card-container {
     perspective: 1000px;
 }
-
 .card {
     width: 100%;
     max-width: 800px;
@@ -104,7 +97,6 @@ h1 {
     display: flex;
     flex-direction: column;
 }
-
 .front {
     flex: 1;
     padding: 40px 40px 20px 40px;
@@ -121,7 +113,6 @@ h1 {
     gap: 15px;
     flex-shrink: 0;
 }
-
 .bottom-bar button {
     padding: 14px 28px;
     font-size: 1.1rem;
@@ -131,29 +122,24 @@ h1 {
     cursor: pointer;
     transition: all 0.2s;
 }
-
 #prev {
     background: #ecf0f1;
     color: #2c3e50;
 }
-
 #next {
     background: #3498db;
     color: white;
 }
-
 .check-button {
     background: #27ae60;
     color: white;
     padding: 14px 40px;
     min-width: 260px;
 }
-
 .bottom-bar button:hover:not(:disabled) {
     transform: translateY(-3px);
     box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
 }
-
 .bottom-bar button:disabled {
     opacity: 0.5;
     cursor: not-allowed;
@@ -173,22 +159,18 @@ h1 {
     transition: all 0.2s;
     font-size: 1.05rem;
 }
-
 .option:hover {
     background: #f0f0f0;
     border-color: #b0b0b0;
 }
-
 .option.selected {
     border-color: #4a90e2;
     background: #e8f4fd;
 }
-
 .option.correct {
     border-color: #27ae60;
     background: #e8f8f0;
 }
-
 .option.wrong {
     border-color: #e74c3c;
     background: #fce8e6;
@@ -199,8 +181,44 @@ h1 {
     color: #27ae60;
     font-weight: bold;
 }
-
 .wrong {
     color: #e74c3c;
     font-weight: bold;
+}
+
+/* ==================== BOTONES DE TIPO (Ambas / Reglamentación / Técnica) ==================== */
+.category-buttons {
+    display: flex;
+    gap: 6px;
+    margin: 20px 0 25px 0;
+}
+
+.category-btn {
+    flex: 1;
+    padding: 11px 8px;           /* reducido para que entre perfectamente */
+    font-size: 0.97rem;          /* letra más pequeña */
+    font-weight: 600;
+    background: #ffffff;
+    color: #2c3e50;
+    border: 3px solid #bdc6d0;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.category-btn:hover {
+    border-color: #3498db;
+    background: #ecf6ff;
+    transform: translateY(-2px);
+}
+
+.category-btn.active {
+    background: #3498db;
+    color: white;
+    border-color: #3498db;
+    box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
 }

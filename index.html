@@ -1,44 +1,50 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simulador de Examen de Radioaficionado</title>
-    <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Simulador de Examen de Radioaficionado</title>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>Simulador de Examen de Radioaficionado</h1>
+<h1>Simulador de Examen de Radioaficionado</h1>
 
-    <div class="container">
-        <!-- Barra lateral izquierda -->
-        <div class="sidebar">
-            <h2>Seleccionar Nivel</h2>
-            <button class="level-btn active" data-level="novicio">Novicio</button>
-            <button class="level-btn" data-level="general">General</button>
-            <button class="level-btn" data-level="superior">Superior</button>
-            
-            <div class="stats">
-                Preguntas cargadas: <span id="question-count">—</span>
-            </div>
+<div class="container">
+    <!-- Barra lateral -->
+    <div class="sidebar">
+        <h2>Seleccionar Nivel</h2>
+        <button class="level-btn active" data-level="novicio">Novicio</button>
+        <button class="level-btn" data-level="general">General</button>
+        <button class="level-btn" data-level="superior">Superior</button>
+
+        <h2>Seleccionar Tipo de Preguntas</h2>
+        <div class="category-buttons">
+            <button class="category-btn active" data-category="ambas">Ambas</button>
+            <button class="category-btn" data-category="reglamentacion">Reglamentación</button>
+            <button class="category-btn" data-category="tecnica">Técnica</button>
         </div>
 
-        <!-- Área principal -->
-        <div class="main">
-            <div class="card-container">
-                <div id="card" class="card">
-                    <div class="front"></div>
-                    
-                    <!-- BARRA CON LOS 3 BOTONES JUNTOS -->
-                    <div class="bottom-bar">
-                        <button id="prev">⬅ Prev</button>
-                        <button id="check-button" class="check-button">✅ Confirmar Respuesta</button>
-                        <button id="next">Next ➡</button>
-                    </div>
+        <div class="stats">
+            Preguntas cargadas: <span id="question-count">—</span>
+        </div>
+    </div>
+
+    <!-- Área principal -->
+    <div class="main">
+        <div class="card-container">
+            <div id="card" class="card">
+                <div class="front"></div>
+                
+                <div class="bottom-bar">
+                    <button id="prev">⬅ Prev</button>
+                    <button id="check-button" class="check-button">✅ Confirmar Respuesta</button>
+                    <button id="next">Next ➡</button>
                 </div>
             </div>
         </div>
     </div>
+</div>
 
-    <script src="app.js"></script>
+<script src="app.js"></script>
 </body>
 </html>
