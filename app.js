@@ -5,7 +5,9 @@ let currentIndex = 0;
 let currentLevel = "novicio";
 let currentCategory = "ambas";
 let currentOrder = "aleatorio";
-let answered = false;
+
+let correctCount = 0;
+let incorrectCount = 0;
 
 // DOM elements
 const card = document.getElementById("card");
@@ -25,6 +27,13 @@ function shuffle(array) {
         [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
     }
     return shuffled;
+}
+
+// ======================== ACTUALIZAR ESTADÍSTICAS ========================
+function updateStats() {
+    document.getElementById("question-count").textContent = currentFlashcards.length;
+    document.getElementById("correct-count").textContent = correctCount;
+    document.getElementById("incorrect-count").textContent = incorrectCount;
 }
 
 // ======================== FILTRADO ========================
@@ -55,8 +64,20 @@ function loadQuestions() {
         currentFlashcards = filtered;
     }
 
+    // Añadimos estado a cada pregunta
+    currentFlashcards = currentFlashcards.map(q => ({
+        ...q,
+        answered: false,
+        selected: null,
+        isCorrect: null
+    }));
+
+    // Resetear contadores
+    correctCount = 0;
+    incorrectCount = 0;
+
     currentIndex = 0;
-    document.getElementById("question-count").textContent = currentFlashcards.length;
+    updateStats();
 
     if (currentFlashcards.length === 0) {
         alert(`No hay preguntas disponibles para ${currentLevel.toUpperCase()} + ${currentCategory}`);
@@ -73,29 +94,62 @@ function showCard() {
     const q = currentFlashcards[currentIndex];
     if (!q) return;
 
-    answered = false;
-    const optionsHTML = Object.entries(q.opciones)
-        .map(([key, val]) => `
-            <button class="option" data-key="${key}">
-                <b>${key.toUpperCase()}</b>: ${val}
-            </button>
-        `).join("");
+    let optionsHTML = '';
+    let feedbackHTML = '';
+    const isAnswered = q.answered;
+
+    if (isAnswered) {
+        // Restaurar pregunta ya respondida
+        const selectedSet = new Set(q.selected || []);
+        optionsHTML = Object.entries(q.opciones)
+            .map(([key, val]) => {
+                const isSelected = selectedSet.has(key);
+                const isCorrectOption = q.respuesta.includes(key);
+                let extraClass = '';
+                if (isCorrectOption) extraClass = 'correct';
+                else if (isSelected) extraClass = 'wrong';
+                return `
+                    <button class="option ${extraClass}" data-key="${key}" disabled>
+                        <b>${key.toUpperCase()}</b>: ${val}
+                    </button>
+                `;
+            }).join("");
+
+        feedbackHTML = q.isCorrect
+            ? `<p id="feedback" class="correct" style="margin-top:20px; font-size:1.3rem; text-align:center;">✅ <strong>¡Correcto!</strong></p>`
+            : `<p id="feedback" class="wrong" style="margin-top:20px; font-size:1.3rem; text-align:center;">❌ <strong>Incorrecto</strong><br><small>Las respuestas correctas están marcadas en verde.</small></p>`;
+    } else {
+        // Pregunta nueva
+        optionsHTML = Object.entries(q.opciones)
+            .map(([key, val]) => `
+                <button class="option" data-key="${key}">
+                    <b>${key.toUpperCase()}</b>: ${val}
+                </button>
+            `).join("");
+        feedbackHTML = `<p id="feedback" style="margin-top:20px; font-size:1.3rem; text-align:center;"></p>`;
+    }
 
     front.innerHTML = `
         <strong>${q.categoria} #${q.numero}</strong><br><br>
         <div style="font-size:1.1rem; line-height:1.4;">${q.pregunta}</div>
         <br>
         ${optionsHTML}
-        <p id="feedback" style="margin-top:20px; font-size:1.3rem; text-align:center;"></p>
+        ${feedbackHTML}
     `;
 
+    // Si ya está respondida → solo deshabilitamos el botón confirmar
+    if (isAnswered) {
+        checkBtn.disabled = true;
+        return;
+    }
+
+    // Pregunta sin responder → activamos selección y botón confirmar
     const options = front.querySelectorAll(".option");
     const feedback = front.querySelector("#feedback");
     let selectedAnswers = new Set();
 
     options.forEach(btn => {
         btn.onclick = () => {
-            if (answered) return;
             const key = btn.dataset.key;
             if (selectedAnswers.has(key)) {
                 selectedAnswers.delete(key);
@@ -109,13 +163,24 @@ function showCard() {
 
     checkBtn.disabled = false;
     checkBtn.onclick = () => {
-        if (answered || selectedAnswers.size === 0) return;
-        answered = true;
+        if (selectedAnswers.size === 0) return;
 
         const selectedArray = Array.from(selectedAnswers).sort();
         const correctArray = [...q.respuesta].sort();
         const isCorrect = JSON.stringify(selectedArray) === JSON.stringify(correctArray);
 
+        // Guardamos el estado en la pregunta
+        q.selected = selectedArray;
+        q.isCorrect = isCorrect;
+        q.answered = true;
+
+        // Sumamos al contador (solo una vez)
+        if (isCorrect) correctCount++;
+        else incorrectCount++;
+
+        updateStats();
+
+        // Aplicamos colores y bloqueamos
         options.forEach(btn => {
             const key = btn.dataset.key;
             const isSelected = selectedAnswers.has(key);
@@ -129,6 +194,7 @@ function showCard() {
             ? "✅ <strong>¡Correcto!</strong>"
             : "❌ <strong>Incorrecto</strong><br><small>Las respuestas correctas están marcadas en verde.</small>";
         feedback.className = isCorrect ? "correct" : "wrong";
+
         checkBtn.disabled = true;
     };
 }
@@ -154,32 +220,19 @@ prevBtn.onclick = () => {
     showCard();
 };
 
-// ======================== CAMBIO DE NIVEL ========================
-document.querySelectorAll(".level-btn").forEach(btn => {
+// ======================== CAMBIO DE NIVEL / CATEGORÍA / ORDEN ========================
+document.querySelectorAll(".level-btn, .category-btn, .order-btn").forEach(btn => {
     btn.addEventListener("click", () => {
-        document.querySelectorAll(".level-btn").forEach(b => b.classList.remove("active"));
+        // Quitar active de todos los botones del mismo grupo
+        const group = btn.parentElement.querySelectorAll("button");
+        group.forEach(b => b.classList.remove("active"));
         btn.classList.add("active");
-        currentLevel = btn.dataset.level;
-        loadQuestions();
-    });
-});
 
-// ======================== CAMBIO DE CATEGORÍA ========================
-document.querySelectorAll(".category-btn").forEach(btn => {
-    btn.addEventListener("click", () => {
-        document.querySelectorAll(".category-btn").forEach(b => b.classList.remove("active"));
-        btn.classList.add("active");
-        currentCategory = btn.dataset.category;
-        loadQuestions();
-    });
-});
+        // Actualizar variables
+        if (btn.classList.contains("level-btn")) currentLevel = btn.dataset.level;
+        if (btn.classList.contains("category-btn")) currentCategory = btn.dataset.category;
+        if (btn.classList.contains("order-btn")) currentOrder = btn.dataset.order;
 
-// ======================== CAMBIO DE ORDEN ========================
-document.querySelectorAll(".order-btn").forEach(btn => {
-    btn.addEventListener("click", () => {
-        document.querySelectorAll(".order-btn").forEach(b => b.classList.remove("active"));
-        btn.classList.add("active");
-        currentOrder = btn.dataset.order;
         loadQuestions();
     });
 });
