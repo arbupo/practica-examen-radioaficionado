@@ -64,7 +64,6 @@ function loadQuestions() {
         currentFlashcards = filtered;
     }
 
-    // Añadimos estado a cada pregunta
     currentFlashcards = currentFlashcards.map(q => ({
         ...q,
         answered: false,
@@ -72,7 +71,6 @@ function loadQuestions() {
         isCorrect: null
     }));
 
-    // Resetear contadores
     correctCount = 0;
     incorrectCount = 0;
 
@@ -99,7 +97,6 @@ function showCard() {
     const isAnswered = q.answered;
 
     if (isAnswered) {
-        // Restaurar pregunta ya respondida
         const selectedSet = new Set(q.selected || []);
         optionsHTML = Object.entries(q.opciones)
             .map(([key, val]) => {
@@ -119,7 +116,6 @@ function showCard() {
             ? `<p id="feedback" class="correct" style="margin-top:20px; font-size:1.3rem; text-align:center;">✅ <strong>¡Correcto!</strong></p>`
             : `<p id="feedback" class="wrong" style="margin-top:20px; font-size:1.3rem; text-align:center;">❌ <strong>Incorrecto</strong><br><small>Las respuestas correctas están marcadas en verde.</small></p>`;
     } else {
-        // Pregunta nueva
         optionsHTML = Object.entries(q.opciones)
             .map(([key, val]) => `
                 <button class="option" data-key="${key}">
@@ -137,13 +133,11 @@ function showCard() {
         ${feedbackHTML}
     `;
 
-    // Si ya está respondida → solo deshabilitamos el botón confirmar
     if (isAnswered) {
         checkBtn.disabled = true;
         return;
     }
 
-    // Pregunta sin responder → activamos selección y botón confirmar
     const options = front.querySelectorAll(".option");
     const feedback = front.querySelector("#feedback");
     let selectedAnswers = new Set();
@@ -169,18 +163,15 @@ function showCard() {
         const correctArray = [...q.respuesta].sort();
         const isCorrect = JSON.stringify(selectedArray) === JSON.stringify(correctArray);
 
-        // Guardamos el estado en la pregunta
         q.selected = selectedArray;
         q.isCorrect = isCorrect;
         q.answered = true;
 
-        // Sumamos al contador (solo una vez)
         if (isCorrect) correctCount++;
         else incorrectCount++;
 
         updateStats();
 
-        // Aplicamos colores y bloqueamos
         options.forEach(btn => {
             const key = btn.dataset.key;
             const isSelected = selectedAnswers.has(key);
@@ -220,19 +211,32 @@ prevBtn.onclick = () => {
     showCard();
 };
 
-// ======================== CAMBIO DE NIVEL / CATEGORÍA / ORDEN ========================
-document.querySelectorAll(".level-btn, .category-btn, .order-btn").forEach(btn => {
+// ======================== CAMBIO DE NIVEL ========================
+document.querySelectorAll(".level-btn").forEach(btn => {
     btn.addEventListener("click", () => {
-        // Quitar active de todos los botones del mismo grupo
-        const group = btn.parentElement.querySelectorAll("button");
-        group.forEach(b => b.classList.remove("active"));
+        document.querySelectorAll(".level-btn").forEach(b => b.classList.remove("active"));
         btn.classList.add("active");
+        currentLevel = btn.dataset.level;
+        loadQuestions();
+    });
+});
 
-        // Actualizar variables
-        if (btn.classList.contains("level-btn")) currentLevel = btn.dataset.level;
-        if (btn.classList.contains("category-btn")) currentCategory = btn.dataset.category;
-        if (btn.classList.contains("order-btn")) currentOrder = btn.dataset.order;
+// ======================== CAMBIO DE CATEGORÍA ========================
+document.querySelectorAll(".category-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+        document.querySelectorAll(".category-btn").forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        currentCategory = btn.dataset.category;
+        loadQuestions();
+    });
+});
 
+// ======================== CAMBIO DE ORDEN ========================
+document.querySelectorAll(".order-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+        document.querySelectorAll(".order-btn").forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        currentOrder = btn.dataset.order;
         loadQuestions();
     });
 });
