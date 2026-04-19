@@ -5,7 +5,6 @@ let currentIndex = 0;
 let currentLevel = "novicio";
 let currentCategory = "ambas";
 let currentOrder = "aleatorio";
-
 let correctCount = 0;
 let incorrectCount = 0;
 
@@ -15,9 +14,26 @@ const front = card.querySelector(".front");
 const prevBtn = document.getElementById("prev");
 const nextBtn = document.getElementById("next");
 const checkBtn = document.getElementById("check-button");
-
 prevBtn.disabled = true;
 nextBtn.disabled = true;
+
+// ======================== ALMACENAMIENTO LOCAL ========================
+function saveProgress() {
+    if (currentFlashcards.length === 0) {
+        localStorage.removeItem('radioaficionado_progress');
+        return;
+    }
+    const progress = {
+        level: currentLevel,
+        category: currentCategory,
+        order: currentOrder,
+        flashcards: currentFlashcards,
+        index: currentIndex,
+        correct: correctCount,
+        incorrect: incorrectCount
+    };
+    localStorage.setItem('radioaficionado_progress', JSON.stringify(progress));
+}
 
 // ======================== MEZCLA ========================
 function shuffle(array) {
@@ -43,7 +59,6 @@ function loadQuestions() {
         const num = q.numero.trim();
         const isRoman = !num.startsWith("P");
         const isPB = num.startsWith("PB.");
-
         let matchesLevel = isRoman || isPB;
         if (currentLevel === "novicio") matchesLevel = matchesLevel || num.startsWith("PBN.");
         else if (currentLevel === "general") matchesLevel = matchesLevel || num.startsWith("PBG.");
@@ -73,7 +88,6 @@ function loadQuestions() {
 
     correctCount = 0;
     incorrectCount = 0;
-
     currentIndex = 0;
     updateStats();
 
@@ -85,6 +99,7 @@ function loadQuestions() {
     prevBtn.disabled = false;
     nextBtn.disabled = false;
     showCard();
+    saveProgress();                    // ← Guarda la nueva sesión
 }
 
 // ======================== MOSTRAR PREGUNTA ========================
@@ -111,7 +126,6 @@ function showCard() {
                     </button>
                 `;
             }).join("");
-
         feedbackHTML = q.isCorrect
             ? `<p id="feedback" class="correct" style="margin-top:20px; font-size:1.3rem; text-align:center;">✅ <strong>¡Correcto!</strong></p>`
             : `<p id="feedback" class="wrong" style="margin-top:20px; font-size:1.3rem; text-align:center;">❌ <strong>Incorrecto</strong><br><small>Las respuestas correctas están marcadas en verde.</small></p>`;
@@ -187,6 +201,8 @@ function showCard() {
         feedback.className = isCorrect ? "correct" : "wrong";
 
         checkBtn.disabled = true;
+
+        saveProgress();        // ← Guarda después de responder
     };
 }
 
@@ -198,6 +214,48 @@ fetch("data.json")
             ...(data.reglamentacion || []).map(q => ({ ...q, categoria: "Reglamentación" })),
             ...(data.tecnica || []).map(q => ({ ...q, categoria: "Técnica" }))
         ];
+
+        // === RECUPERAR PROGRESO GUARDADO ===
+        const savedProgress = localStorage.getItem('radioaficionado_progress');
+        if (savedProgress) {
+            try {
+                const progress = JSON.parse(savedProgress);
+
+                currentLevel = progress.level || "novicio";
+                currentCategory = progress.category || "ambas";
+                currentOrder = progress.order || "aleatorio";
+
+                // Restaurar botones activos
+                document.querySelectorAll(".level-btn").forEach(btn => {
+                    btn.classList.toggle("active", btn.dataset.level === currentLevel);
+                });
+                document.querySelectorAll(".category-btn").forEach(btn => {
+                    btn.classList.toggle("active", btn.dataset.category === currentCategory);
+                });
+                document.querySelectorAll(".order-btn").forEach(btn => {
+                    btn.classList.toggle("active", btn.dataset.order === currentOrder);
+                });
+
+                currentFlashcards = progress.flashcards || [];
+                currentIndex = typeof progress.index === 'number' ? progress.index : 0;
+                correctCount = progress.correct || 0;
+                incorrectCount = progress.incorrect || 0;
+
+                updateStats();
+
+                if (currentFlashcards.length > 0) {
+                    prevBtn.disabled = false;
+                    nextBtn.disabled = false;
+                    showCard();
+                    return; // ya restauramos, no cargamos de nuevo
+                }
+            } catch (e) {
+                console.error("Error al cargar progreso guardado:", e);
+                localStorage.removeItem('radioaficionado_progress');
+            }
+        }
+
+        // Si no hay progreso guardado o estaba vacío → cargar normal
         loadQuestions();
     });
 
@@ -205,13 +263,16 @@ fetch("data.json")
 nextBtn.onclick = () => {
     currentIndex = (currentIndex + 1) % currentFlashcards.length;
     showCard();
+    saveProgress();                    // ← Guarda al cambiar de pregunta
 };
+
 prevBtn.onclick = () => {
     currentIndex = (currentIndex - 1 + currentFlashcards.length) % currentFlashcards.length;
     showCard();
+    saveProgress();                    // ← Guarda al cambiar de pregunta
 };
 
-// ======================== CAMBIO DE NIVEL ========================
+// ======================== CAMBIO DE NIVEL / CATEGORÍA / ORDEN ========================
 document.querySelectorAll(".level-btn").forEach(btn => {
     btn.addEventListener("click", () => {
         document.querySelectorAll(".level-btn").forEach(b => b.classList.remove("active"));
@@ -221,7 +282,6 @@ document.querySelectorAll(".level-btn").forEach(btn => {
     });
 });
 
-// ======================== CAMBIO DE CATEGORÍA ========================
 document.querySelectorAll(".category-btn").forEach(btn => {
     btn.addEventListener("click", () => {
         document.querySelectorAll(".category-btn").forEach(b => b.classList.remove("active"));
@@ -231,7 +291,6 @@ document.querySelectorAll(".category-btn").forEach(btn => {
     });
 });
 
-// ======================== CAMBIO DE ORDEN ========================
 document.querySelectorAll(".order-btn").forEach(btn => {
     btn.addEventListener("click", () => {
         document.querySelectorAll(".order-btn").forEach(b => b.classList.remove("active"));
