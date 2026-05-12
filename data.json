@@ -1,6 +1,6 @@
 {
   "reglamentacion": [
-    {
+{
       "numero": "I.1",
       "pregunta": "¿Cuál es el objeto del “Reglamento General de Radioaficionados”?",
       "opciones": {
@@ -1287,7 +1287,7 @@
         "a": "6 hs.",
         "b": "12 hs."
       },
-      "respuesta": ["b"]
+      "respuesta": ["a"]
     },
     {
       "numero": "XII.8",
@@ -1374,7 +1374,7 @@
         "b": "Superior",
         "c": "Especial"
       },
-      "respuesta": ["b"]
+      "respuesta": ["a", "b"]
     },
     {
       "numero": "XII.17",
@@ -1402,7 +1402,7 @@
         "a": "Teórico.",
         "b": "Práctico."
       },
-      "respuesta": ["b"]
+      "respuesta": ["a"]
     },
     {
       "numero": "XII.20",
@@ -1465,7 +1465,7 @@
         "c": "Ser designado por el Radio Club o Institución Autorizada.",
         "d": "Abstenerse de participar en la toma de exámenes a familiares directos de primer grado."
       },
-      "respuesta": ["b", "c", "d"]
+      "respuesta": ["a","b","c","d"]
     },
     {
       "numero": "XII.25",
@@ -1610,7 +1610,7 @@
         "c": "CW.",
         "d": "APRS."
       },
-      "respuesta": ["b"]
+      "respuesta": ["b", "d"]
     },
     {
       "numero": "PB.7",
@@ -1837,359 +1837,6 @@
         "d": "No están permitidas."
       },
       "respuesta": ["b"]
-    },
-    {
-      "numero": "PBG.1",
-      "pregunta": "¿En qué porción de la banda de 15 metros NO puede operar un Radioaficionado de categoría General?",
-      "opciones": {
-        "a": "21000 – 21070 kHz.",
-        "b": "21125 – 21149 kHz.",
-        "c": "21151 – 21250 kHz.",
-        "d": "21.250 – 21.450 kHz."
-      },
-      "respuesta": ["d"]
-    },
-    {
-      "numero": "PBG.2",
-      "pregunta": "¿En qué porción de la banda de 30 metros puede operar en CW un Radioaficionado de categoría General?",
-      "opciones": {
-        "a": "10100 – 10130 kHz.",
-        "b": "10130 – 10140 kHz.",
-        "c": "10140 – 10150 kHz.",
-        "d": "No puede operar en la banda de 30 metros."
-      },
-      "respuesta": ["d"]
-    },
-    {
-      "numero": "PBG.3",
-      "pregunta": "¿Con qué potencia máxima puede operar en un Radioaficionado de categoría General en la banda de 30 metros?",
-      "opciones": {
-        "a": "1 W.",
-        "b": "100 W.",
-        "c": "250 W.",
-        "d": "La autorizada para la categoría.",
-        "e": "No puede operar en la banda de 30 metros."
-      },
-      "respuesta": ["e"]
-    },
-    {
-      "numero": "PBG.4",
-      "pregunta": "La banda de frecuencias de 80 metros:",
-      "opciones": {
-        "a": "Está atribuida al Servicio de Radioaficionados con carácter primario.",
-        "b": "Está atribuida al Servicio de Radioaficionados con carácter secundario.",
-        "c": "Está atribuida al Servicio de Radioaficionados con carácter primario o secundario según el segmento de frecuencias."
-      },
-      "respuesta": ["c"]
-    },
-    {
-      "numero": "PBG.5",
-      "pregunta": "¿Cuál es la PIRE máxima autorizada para la categoría General en la banda de 2200 metros?",
-      "opciones": {
-        "a": "0,5 W.",
-        "b": "1 W.",
-        "c": "La autorizada para la categoría.",
-        "d": "No puede emitir en esta banda."
-      },
-      "respuesta": ["b"]
-    },
-    {
-      "numero": "PBG.6",
-      "pregunta": "¿Cuáles son las condiciones de operación para la categoría General en la banda de 630 metros?",
-      "opciones": {
-        "a": "Modos: AM y DIGIMODOS; PIRE: 1 W; Anchura de banda: 500 Hz.",
-        "b": "Modos: CW y DIGIMODOS; PIRE: 5 W; Anchura de banda: 500 Hz.",
-        "c": "Modos: CW y FM; PIRE: 5 W; Anchura de banda: 500 Hz.",
-        "d": "Modos: CW y DIGIMODOS; PIRE: 5 W; Anchura de banda: 200 Hz."
-      },
-      "respuesta": ["b"]
-    },
-    {
-      "numero": "PBG.7",
-      "pregunta": "¿Cuál es la frecuencia de llamada en FM en la banda de 6 metros?",
-      "opciones": {
-        "a": "50,11 MHz.",
-        "b": "51,50 MHz.",
-        "c": "52,00 MHz.",
-        "d": "53,11 MHz."
-      },
-      "respuesta": ["d"]
-    },
-    {
-      "numero": "PBG.8",
-      "pregunta": "¿Qué porción de la banda de 6 metros es exclusiva para T.L.T.?",
-      "opciones": {
-        "a": "50,00 – 50,05 MHz.",
-        "b": "50,05 – 50,10 MHz.",
-        "c": "50,10 – 50,60 MHz.",
-        "d": "51,00 – 51,10 MHz."
-      },
-      "respuesta": ["a"]
-    },
-    {
-      "numero": "PBG.9",
-      "pregunta": "¿Cuál es la frecuencia internacional de llamada en SSB en la banda de 6 metros?",
-      "opciones": {
-        "a": "50,11 MHz.",
-        "b": "51,50 MHz.",
-        "c": "52,00 MHz.",
-        "d": "53,11 MHz."
-      },
-      "respuesta": ["a"]
-    },
-    {
-      "numero": "PBG.10",
-      "pregunta": "¿Qué porción de la banda de 6 metros es para uso exclusivo de radiofaros?",
-      "opciones": {
-        "a": "52,000 – 52,050 MHz.",
-        "b": "50,050 – 50,100 MHz.",
-        "c": "50,000 – 50,050 MHz.",
-        "d": "50,060 – 51,000 MHz."
-      },
-      "respuesta": ["c"]
-    },
-    {
-      "numero": "PBG.11",
-      "pregunta": "¿En qué sector de la banda de 80 metros puede un Radioaficionado de categoría General operar en CW, prioridad DX?",
-      "opciones": {
-        "a": "3500 – 3515 kHz.",
-        "b": "3515 – 3525 kHz.",
-        "c": "3525 – 3570 kHz.",
-        "d": "3570 – 3580 kHz."
-      },
-      "respuesta": ["a"]
-    },
-    {
-      "numero": "PBG.12",
-      "pregunta": "¿En qué porción de la banda de 20 metros puede operar en SSB un Radioaficionado de categoría General?",
-      "opciones": {
-        "a": "14000 – 14070 kHz.",
-        "b": "14101 – 14119 kHz.",
-        "c": "14119 – 14160 kHz.",
-        "d": "14160 – 14350 kHz."
-      },
-      "respuesta": ["d"]
-    },
-    {
-      "numero": "PBG.13",
-      "pregunta": "¿En qué porción de la banda de 20 metros puede operar en RTTY prioritario un Radioaficionado de categoría General?",
-      "opciones": {
-        "a": "14070 – 14095 kHz.",
-        "b": "14095 – 14099 kHz.",
-        "c": "14099 – 14101 kHz.",
-        "d": "14160 – 14350 kHz."
-      },
-      "respuesta": ["a"]
-    },
-    {
-      "numero": "PBG.14",
-      "pregunta": "¿Puede un Radioaficionado de categoría General efectuar transmisiones en AM en la banda de 5 centímetros?",
-      "opciones": {
-        "a": "Siempre que se trate de emisiones con baja potencia.",
-        "b": "Siempre que se trate de emisiones de prueba.",
-        "c": "Siempre, sin restricciones.",
-        "d": "No están permitidas las emisiones en ese modo en la banda de 5 centímetros."
-      },
-      "respuesta": ["d"]
-    },
-    {
-      "numero": "PBG.15",
-      "pregunta": "¿Puede un Radioaficionado de categoría General efectuar transmisiones del Servicio de Radioaficionados por satélite en la banda de 23 centímetros?",
-      "opciones": {
-        "a": "Sólo en sentido espacio – tierra, en el rango 1260 – 1270 MHz.",
-        "b": "Sólo en sentido tierra – espacio, en el rango 1260 – 1270 MHz.",
-        "c": "Sí, en ambos sentidos, en el rango 1260 – 1270 MHz.",
-        "d": "No están permitidas."
-      },
-      "respuesta": ["c"]
-    },
-    {
-      "numero": "PBG.16",
-      "pregunta": "Los enlaces de repetidoras en la banda de 23 centímetros se autorizan:",
-      "opciones": {
-        "a": "Sólo si operan en ambos sentidos en la misma banda.",
-        "b": "Sólo si operan en bandas cruzadas.",
-        "c": "Si operan tanto en la misma banda como en bandas cruzadas.",
-        "d": "No están permitidos."
-      },
-      "respuesta": ["c"]
-    },
-    {
-      "numero": "PBG.17",
-      "pregunta": "¿Cuál es el centro de actividad global de emergencias IARU en la banda de 20 metros?",
-      "opciones": {
-        "a": "14180 kHz.",
-        "b": "14210 kHz.",
-        "c": "14300 kHz.",
-        "d": "No hay centro de actividad global de emergencias IARU en esta banda."
-      },
-      "respuesta": ["c"]
-    },
-    {
-      "numero": "PBG.18",
-      "pregunta": "La operación, por parte de un Radioaficionado de categoría General, del Servicio de Aficionados por Satélite en la banda de 15 metros:",
-      "opciones": {
-        "a": "No puede reclamar protección ante interferencias por tratarse de una banda atribuida con carácter secundario.",
-        "b": "Puede reclamar protección ante interferencias por tratarse de una banda atribuida con carácter primario.",
-        "c": "Sólo puede realizarse en el segmento 21200 – 21310 kHz.",
-        "d": "Sólo puede realizarse en el segmento 21250 – 21450 kHz."
-      },
-      "respuesta": ["b"]
-    },
-    {
-      "numero": "PBS.1",
-      "pregunta": "¿En qué porción de la banda de 2 metros NO está permitido ningún tipo de emisión?",
-      "opciones": {
-        "a": "145 – 145,2 MHz.",
-        "b": "145,79 – 145,8 MHz.",
-        "c": "145,8 – 146 MHz.",
-        "d": "147,4 – 147,6 MHz."
-      },
-      "respuesta": ["b"]
-    },
-    {
-      "numero": "PBS.2",
-      "pregunta": "¿Cuál es el destino del segmento 220 – 220,05 MHz de la banda de 1,25 metros?",
-      "opciones": {
-        "a": "CW",
-        "b": "T.L.T y SSB.",
-        "c": "Radiofaros y T.L.T.",
-        "d": "DV.",
-        "e": "CW T.L.T exclusivo."
-      },
-      "respuesta": ["e"]
-    },
-    {
-      "numero": "PBS.3",
-      "pregunta": "¿Con qué carácter se encuentra atribuida la banda de 70 cm?",
-      "opciones": {
-        "a": "Servicio de Radioaficionados primario – Servicio de Radioaficionados por Satélite primario.",
-        "b": "Servicio de Radioaficionados secundario – Servicio de Radioaficionados por Satélite secundario.",
-        "c": "Servicio de Radioaficionados primario – Servicio de Radioaficionados por Satélite secundario.",
-        "d": "Servicio de Radioaficionados secundario – Servicio de Radioaficionados por Satélite primario."
-      },
-      "respuesta": ["b"]
-    },
-    {
-      "numero": "PBS.4",
-      "pregunta": "Los enlaces de repetidoras en la banda de 23 cm se autorizan:",
-      "opciones": {
-        "a": "Sólo si operan en ambos sentidos en la misma banda.",
-        "b": "Sólo si operan en bandas cruzadas.",
-        "c": "Si operan tanto en la misma banda como en bandas cruzadas.",
-        "d": "No están permitidos."
-      },
-      "respuesta": ["c"]
-    },
-    {
-      "numero": "PBS.5",
-      "pregunta": "¿Puede un Radioaficionado de categoría Superior efectuar transmisiones en AM en la banda de 3 cm?",
-      "opciones": {
-        "a": "Siempre que se trate de emisiones con baja potencia.",
-        "b": "Siempre que se trate de emisiones de prueba.",
-        "c": "Siempre, sin restricciones.",
-        "d": "No están permitidas las emisiones en ese modo."
-      },
-      "respuesta": ["b"]
-    },
-    {
-      "numero": "PBS.6",
-      "pregunta": "¿Puede un Radioaficionado de categoría Superior efectuar transmisiones del Servicio de Radioaficionados por Satélite en la banda de 23 cm?",
-      "opciones": {
-        "a": "Sólo en sentido espacio – tierra, en el rango 1260 – 1270 MHz.",
-        "b": "Sólo en sentido tierra – espacio, en el rango 1260 – 1270 MHz.",
-        "c": "Sí, en ambos sentidos, en el rango 1260 – 1270 MHz.",
-        "d": "No están permitidas."
-      },
-      "respuesta": ["b"]
-    },
-    {
-      "numero": "PBS.7",
-      "pregunta": "La operación, por parte de un Radioaficionado de categoría Superior, del Servicio de Aficionados por Satélite en la banda de 15 metros:",
-      "opciones": {
-        "a": "No puede reclamar protección ante interferencias por tratarse de una banda atribuida con carácter secundario.",
-        "b": "Puede reclamar protección ante interferencias por tratarse de una banda atribuida con carácter primario.",
-        "c": "Sólo puede realizarse en el segmento 21200 – 21310 kHz.",
-        "d": "Sólo puede realizarse en el segmento 21250 – 21450 kHz."
-      },
-      "respuesta": ["b"]
-    },
-    {
-      "numero": "PBS.8",
-      "pregunta": "¿Cuál es el centro de actividad global de emergencias IARU en la banda de 40 metros?",
-      "opciones": {
-        "a": "7100 kHz.",
-        "b": "7110 kHz.",
-        "c": "7250 kHz.",
-        "d": "No hay centro de actividad global de emergencias IARU en esta banda."
-      },
-      "respuesta": ["c"]
-    },
-    {
-      "numero": "PBS.9",
-      "pregunta": "Los Radioaficionados de categoría Superior pueden operar en la banda de 2200 metros con:",
-      "opciones": {
-        "a": "Modos CW y DIGIMODOS; PIRE: 1 W; Anchura de banda: 500 Hz.",
-        "b": "Modos CW y DIGIMODOS; PIRE: 5 W; Anchura de banda: 500 Hz.",
-        "c": "Modos CW y FM; PIRE: 5 W; Anchura de banda: 500 Hz.",
-        "d": "Modos CW y DIGIMODOS; PIRE: 5 W; Anchura de banda: 200 Hz."
-      },
-      "respuesta": ["b"]
-    },
-    {
-      "numero": "PBS.10",
-      "pregunta": "Los Radioaficionados de categoría Superior pueden operar en la banda de 630 metros con:",
-      "opciones": {
-        "a": "Modos CW y DIGIMODOS; PIRE: 1 W; Anchura de banda: 500 Hz.",
-        "b": "Modos CW y DIGIMODOS; PIRE: 5 W; Anchura de banda: 500 Hz.",
-        "c": "Modos CW y FM; PIRE: 5 W; Anchura de banda: 500 Hz.",
-        "d": "Modos CW y DIGIMODOS; PIRE: 5 W; Anchura de banda: 200 Hz."
-      },
-      "respuesta": ["b"]
-    },
-    {
-      "numero": "PBS.11",
-      "pregunta": "¿Cuál es la anchura de banda máxima para DIGIMODOS en la banda de 160 metros?",
-      "opciones": {
-        "a": "<= 3 kHz.",
-        "b": "<= 16 kHz.",
-        "c": "<= 50 kHz.",
-        "d": "<= 100 kHz."
-      },
-      "respuesta": ["c"]
-    },
-    {
-      "numero": "PBS.12",
-      "pregunta": "¿Cuál es la anchura de banda máxima para DIGIMODOS en la banda de 80 y 40 metros?",
-      "opciones": {
-        "a": "<= 3 kHz.",
-        "b": "<= 16 kHz.",
-        "c": "<= 50 kHz.",
-        "d": "<= 100 kHz."
-      },
-      "respuesta": ["a"]
-    },
-    {
-      "numero": "PBS.13",
-      "pregunta": "¿Cuál es la anchura de banda máxima para DIGIMODOS en la banda de 20, 17, 15, 12 y 10 metros?",
-      "opciones": {
-        "a": "<= 3 kHz.",
-        "b": "<= 16 kHz.",
-        "c": "<= 50 kHz.",
-        "d": "<= 100 kHz."
-      },
-      "respuesta": ["c"]
-    },
-    {
-      "numero": "PBS.14",
-      "pregunta": "¿Cuál es la anchura de banda máxima para DIGIMODOS en la banda de 6, 2 y 70 cm?",
-      "opciones": {
-        "a": "<= 3 kHz.",
-        "b": "<= 16 kHz.",
-        "c": "<= 50 kHz.",
-        "d": "<= 100 kHz."
-      },
-      "respuesta": ["c"]
     }
   ],
   "tecnica": [
@@ -2554,7 +2201,7 @@
         "c": "60 V",
         "d": "70 V"
       },
-      "respuesta": ["d"]
+      "respuesta": ["c"]
     },
     {
       "numero": "34",
